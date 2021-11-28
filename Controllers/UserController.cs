@@ -1,0 +1,56 @@
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using ProjectManagement.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace ProjectManagement.Controllers
+{
+    [Route("api/v1/users")]
+    [ApiController]
+    public class UserController : ControllerBase
+    {
+        private readonly IUserProvider _userProvider;
+        public UserController(IUserProvider userProvider)
+        {
+            _userProvider = userProvider;
+        }
+        [HttpGet("getAllUsers")]
+        public IActionResult Get()
+        {
+            return Ok(_userProvider.GetAllUsers());
+        }
+        [HttpGet("getUser/{userId}")]
+        public IActionResult Get(int userId)
+        {
+            var res = _userProvider.GetUser(userId);
+            if (res == null)
+                return NotFound("User not found");
+            return Ok(res);
+        }
+        [HttpPost("createUser")]
+        public IActionResult Post(User user)
+        {
+            var res = _userProvider.CreateUser(user);
+            if (res == null)
+                return BadRequest("Sorry !! User can't be added");
+            return Created(HttpContext.Request.Scheme + "://" + HttpContext.Request.Host + HttpContext.Request.Path + "/" + user.UserId, user);
+        }
+        [HttpDelete("deleteUser/{userId}")]
+        public IActionResult DeleteUser(int userId)
+        {
+            bool res = _userProvider.DeleteUser(userId);
+            return res ? Ok("Record deleted successfully") : BadRequest("User Id not found");
+        }
+        [HttpPut("updateUser")]
+        public IActionResult UpdateUser(User user)
+        {
+            var res = _userProvider.UpdateUser(user);
+            if (res == null)
+                return BadRequest("Sorry !! User can't be updated");
+            return Ok(res);
+        }
+    }
+}
