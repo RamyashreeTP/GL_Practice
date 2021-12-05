@@ -13,9 +13,18 @@ namespace ProjectManagement.Controllers
     public class LoginController : ControllerBase
     {
         private readonly IUserAuthentication _userService;
-        public LoginController(IUserAuthentication userService)
+        private readonly ApiContext _context;
+        public LoginController(IUserAuthentication userService,ApiContext context)
         {
             _userService = userService;
+            _context = context;
+            if (!_context.ValidUsers.Any())
+            {
+                _context.ValidUsers.Add(new LoginModel() { userName = "user1", userPassword = "password1" });
+                _context.ValidUsers.Add(new LoginModel() { userName = "user2", userPassword = "password2" });
+                _context.ValidUsers.Add(new LoginModel() { userName = "user3", userPassword = "password3" });
+                _context.SaveChanges();
+            }
         }
         [HttpPost("login")]
         public IActionResult validateCredentials(string uname, string pwd)
@@ -37,3 +46,4 @@ namespace ProjectManagement.Controllers
         }
     }
 }
+
