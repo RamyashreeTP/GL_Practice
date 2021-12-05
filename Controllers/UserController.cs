@@ -13,9 +13,18 @@ namespace ProjectManagement.Controllers
     public class UserController : ControllerBase
     {
         private readonly IUserProvider _userProvider;
-        public UserController(IUserProvider userProvider)
+        private readonly ApiContext _context;
+        public UserController(IUserProvider userProvider, ApiContext context)
         {
             _userProvider = userProvider;
+            _context = context;
+            if (!_context.Users.Any())
+            {
+                _context.Users.Add(new User() { UserId = 101, FirstName = "Vimal", LastName = "Kashyap", Email = "vimal.K@gmail.com", Password = "vimal321" });
+                _context.Users.Add(new User() { UserId = 102, FirstName = "Subhod", LastName = "Gupta", Email = "subhoda@gmail.com", Password = "Hello@123" });
+                _context.Users.Add(new User() { UserId = 103, FirstName = "Manasa", LastName = "Bharadwaj", Email = "Manasa.Bh@gmail.com", Password = "PassMan###12" });
+                _context.SaveChanges();
+            }
         }
         [HttpGet("getAllUsers")]
         public IActionResult Get()
