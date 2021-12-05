@@ -12,9 +12,18 @@ namespace ProjectManagement.Controllers
     public class TaskController : ControllerBase
     {
         private readonly ITaskProvider _taskProvider;
-        public TaskController(ITaskProvider taskProvider)
+        private readonly ApiContext _context;
+        public TaskController(ITaskProvider taskProvider,ApiContext context)
         {
             _taskProvider = taskProvider;
+            _context = context;
+            if (!_context.Tasks.Any())
+            {
+                _context.Tasks.Add(new Task() { taskId = 501, projectId = 1000, status = 1, userId = 101, detail = "task detail 1", createdOn = new DateTime() });
+                _context.Tasks.Add(new Task() { taskId = 502, projectId = 1001, status = 1, userId = 102, detail = "task detail 2", createdOn = new DateTime() });
+                _context.Tasks.Add(new Task() { taskId = 503, projectId = 1002, status = 2, userId = 103, detail = "task detail 3", createdOn = new DateTime() });
+                _context.SaveChanges();
+            }
         }
         [HttpGet("getAllTasks")]
         public IActionResult Get()
@@ -53,3 +62,4 @@ namespace ProjectManagement.Controllers
         }
     }
 }
+
