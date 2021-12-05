@@ -7,27 +7,29 @@ namespace ProjectManagement.Models
 {
     public class UserProvider : IUserProvider
     {
-        public static List<User> users = new();
-        public UserProvider()
+        private ApiContext _context;
+       // public static List<User> users = new();
+        public UserProvider(ApiContext context)
         {
-            users.Add(new User() { UserId = 101, FirstName = "Vimal", LastName = "Kashyap", Email = "vimal.K@gmail.com", Password = "vimal321" });
+            _context = context;
+            /*users.Add(new User() { UserId = 101, FirstName = "Vimal", LastName = "Kashyap", Email = "vimal.K@gmail.com", Password = "vimal321" });
             users.Add(new User() { UserId = 102, FirstName = "Subhod", LastName = "Gupta", Email = "subhoda@gmail.com", Password = "Hello@123" });
-            users.Add(new User() { UserId = 103, FirstName = "Manasa", LastName = "Bharadwaj", Email = "Manasa.Bh@gmail.com", Password = "PassMan###12" });
+            users.Add(new User() { UserId = 103, FirstName = "Manasa", LastName = "Bharadwaj", Email = "Manasa.Bh@gmail.com", Password = "PassMan###12" });*/
         }
         public User CreateUser(User user)
         {
-            int maxUserId = users.Max(x => x.UserId);
+            int maxUserId = _context.Users.Max(x => x.UserId);
             user.UserId = ++maxUserId;
-            users.Add(user);
+            _context.Users.Add(user);
             return user;
         }
 
         public bool DeleteUser(int userId)
         {
-            if (users.Any(a => a.UserId == userId))
+            if (_context.Users.Any(a => a.UserId == userId))
             {
                 User user = GetUser(userId);
-                users.Remove(user);
+                _context.Users.Remove(user);
                 return true;
             }
             return false;
@@ -35,16 +37,17 @@ namespace ProjectManagement.Models
 
         public IEnumerable<User> GetAllUsers()
         {
-            return users;
+            return _context.Users;
         }
 
         public User GetUser(int userId)
         {
-            return users.FirstOrDefault(a => a.UserId == userId);
+            return _context.Users.FirstOrDefault(a => a.UserId == userId);
         }
 
         public IEnumerable<User> UpdateUser(User user)
         {
+            var users = _context.Users;
             foreach (var ele in users)
             {
                 if (ele.UserId == user.UserId)
