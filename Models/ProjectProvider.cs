@@ -7,28 +7,30 @@ namespace ProjectManagement.Models
 {
     public class ProjectProvider:IProjectProvider
     {
-        public static List<Project> projects = new();
-        public ProjectProvider()
+        private ApiContext _context;
+        //public static List<Project> projects = new();
+        public ProjectProvider(ApiContext context)
         {
-            projects.Add(new Project() { projectId = 1000, projectName = "ABC", projectDetail = "test project 1", createdOn = new DateTime() });
+            _context = context;
+            /*projects.Add(new Project() { projectId = 1000, projectName = "ABC", projectDetail = "test project 1", createdOn = new DateTime() });
             projects.Add(new Project() { projectId = 1001, projectName = "MNO", projectDetail = "test project 2", createdOn = new DateTime() });
-            projects.Add(new Project() { projectId = 1002, projectName = "XYZ", projectDetail = "test project 3", createdOn = new DateTime() });
+            projects.Add(new Project() { projectId = 1002, projectName = "XYZ", projectDetail = "test project 3", createdOn = new DateTime() });*/
         }
         public Project CreateProject(Project obj)
         {
-            int maxProjId = projects.Max(x => x.projectId);
+            int maxProjId = _context.Projects.Max(x => x.projectId);
             obj.projectId = ++maxProjId;
             obj.createdOn = DateTime.Now;
-            projects.Add(obj);
+            _context.Projects.Add(obj);
             return obj;
         }
 
         public bool DeleteProject(int prjId)
         {
-            if (projects.Any(a => a.projectId == prjId))
+            if (_context.Projects.Any(a => a.projectId == prjId))
             {
                 Project proj = GetProject(prjId);
-                projects.Remove(proj);
+                _context.Projects.Remove(proj);
                 return true;
             }
             return false;
@@ -36,16 +38,17 @@ namespace ProjectManagement.Models
 
         public IEnumerable<Project> GetAllProjects()
         {
-            return projects;
+            return _context.Projects;
 
         }
         public Project GetProject(int prjId)
         {
-            return projects.FirstOrDefault(a => a.projectId == prjId);
+            return _context.Projects.FirstOrDefault(a => a.projectId == prjId);
         }
 
         public IEnumerable<Project> UpdateProject(Project obj)
         {
+            var projects = _context.Projects;
             foreach (var ele in projects)
             {
                 if (ele.projectId == obj.projectId)
@@ -59,3 +62,4 @@ namespace ProjectManagement.Models
         }
     }
 }
+
