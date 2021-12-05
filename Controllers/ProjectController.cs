@@ -13,9 +13,18 @@ namespace ProjectManagement.Controllers
     public class ProjectController : ControllerBase
     {
         private readonly IProjectProvider _projectProvider;
-        public ProjectController(IProjectProvider projectProvider)
+        private readonly ApiContext _context;
+        public ProjectController(IProjectProvider projectProvider,ApiContext context)
         {
             _projectProvider = projectProvider;
+            _context = context;
+            if (!_context.Projects.Any())
+            {
+                _context.Projects.Add(new Project() { projectId = 1000, projectName = "ABC", projectDetail = "test project 1", createdOn = new DateTime() });
+                _context.Projects.Add(new Project() { projectId = 1001, projectName = "MNO", projectDetail = "test project 2", createdOn = new DateTime() });
+                _context.Projects.Add(new Project() { projectId = 1002, projectName = "XYZ", projectDetail = "test project 3", createdOn = new DateTime() });
+                _context.SaveChanges();
+            }
         }
         [HttpGet("getAllProjects")]
         public IActionResult Get()
@@ -54,4 +63,5 @@ namespace ProjectManagement.Controllers
         }
     }
 
+}
 }
