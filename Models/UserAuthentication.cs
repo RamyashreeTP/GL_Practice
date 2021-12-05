@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -7,23 +7,25 @@ namespace ProjectManagement.Models
 {
     public class UserAuthentication:IUserAuthentication
     {
-        List<LoginModel> validUsers = new();
-        public UserAuthentication()
+        private ApiContext _context;
+        //List<LoginModel> validUsers = new();
+        public UserAuthentication(ApiContext context)
         {
-            validUsers.Add(new LoginModel() { userName = "user1", userPassword = "password1" });
+            _context=context;
+            /*validUsers.Add(new LoginModel() { userName = "user1", userPassword = "password1" });
             validUsers.Add(new LoginModel() { userName = "user2", userPassword = "password2" });
-            validUsers.Add(new LoginModel() { userName = "user3", userPassword = "password3" });
+            validUsers.Add(new LoginModel() { userName = "user3", userPassword = "password3" });*/
         }
         public bool validateCredentials(string userName, string password)
         {
-            bool res = validUsers.Any(x => x.userName.Equals(userName) && x.userPassword.Equals(password));
+            bool res = _context.ValidUsers.Any(x => x.userName.Equals(userName) && x.userPassword.Equals(password));
             return res;
         }
         public bool addUser(string userName, string password)
         {
             if (validateUsername(userName) && validatePassword(password))
             {
-                validUsers.Add(new LoginModel() { userName = userName, userPassword = password });
+                _context.ValidUsers.Add(new LoginModel() { userName = userName, userPassword = password });
                 return true;
             }
             return false;
@@ -62,3 +64,4 @@ namespace ProjectManagement.Models
         }
     }
 }
+
