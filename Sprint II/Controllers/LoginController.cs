@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace ProjectManagement.Controllers
 {
-    [Route("api/Authentication")]
+    [Route("api/v1/Authentication")]
     [ApiController]
     public class LoginController : ControllerBase
     {

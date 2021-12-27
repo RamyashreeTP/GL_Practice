@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace ProjectManagement.Controllers
 {
-    [Route("api/projects")]
+    [Route("api/v1/projects")]
     [ApiController]
     public class ProjectController : ControllerBase
     {

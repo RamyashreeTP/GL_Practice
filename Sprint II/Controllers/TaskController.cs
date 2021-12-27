@@ -8,7 +8,7 @@ using System.Linq;
 
 namespace ProjectManagement.Controllers
 {
-    [Route("api/tasks")]
+    [Route("api/v1/tasks")]
     [ApiController]
     public class TaskController : ControllerBase
     {
