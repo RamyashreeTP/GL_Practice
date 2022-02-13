@@ -1,13 +1,21 @@
- <app-navbar></app-navbar>
- <app-header></app-header>
+<!-- <app-navbar></app-navbar>
+<app-header></app-header>
 <div class="container-fluid">
-  <div class="row">
-    <div class="col-lg-2">
-      <app-sidebar></app-sidebar>
-    </div>
-    <div class="col-lg-10">
-     <app-login></app-login>
-    </div>
-  </div>
+  <app-login></app-login>
 </div>
-<!-- <app-login></app-login> -->
+
+ -->
+
+<nav class="navbar navbar-expand navbar-dark bg-dark">
+  <div class="navbar-nav">
+    <a class="navbar-brand" href="#">Project Management</a>
+    <a class="nav-item nav-link" routerLink="/login" routerLinkActive="active"
+      [routerLinkActiveOptions]="{exact: true}">Home</a>
+    <a class="nav-item nav-link" (click)="logout()">Logout</a>
+  </div>
+</nav>
+
+<!-- main app container -->
+<div class="app-container" [ngClass]="{ 'bg-light': user }">
+  <router-outlet></router-outlet>
+</div>

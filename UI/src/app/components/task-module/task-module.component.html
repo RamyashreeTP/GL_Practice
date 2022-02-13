@@ -1,30 +1,45 @@
-<table class="table">
-  <thead>
-    <tr>
-      <th scope="col">ID</th>
-      <th scope="col">project</th>
-      <th scope="col">Detail</th>
-      <th scope="col">Created On</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">1</th>
-      <td>Mark</td>
-      <td>Otto</td>
-      <td>@mdo</td>
-    </tr>
-    <tr>
-      <th scope="row">2</th>
-      <td>Jacob</td>
-      <td>Thornton</td>
-      <td>@fat</td>
-    </tr>
-    <tr>
-      <th scope="row">3</th>
-      <td>Larry</td>
-      <td>the Bird</td>
-      <td>@twitter</td>
-    </tr>
-  </tbody>
-</table>
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-lg-2">
+      <app-sidebar></app-sidebar>
+    </div>
+    <div class="col-lg-10">
+      <div class="card">
+        <h4 class="card-header">Task Module</h4>
+        <div class="card-body">
+            <button type="button" routerLink="/create-task" class="btn btn-primary">
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-plus" viewBox="0 0 16 16">
+                <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H1s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C9.516 10.68 8.289 10 6 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/>
+                <path fill-rule="evenodd" d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z"/>
+              </svg> Add Task</button><br/>
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Project ID</th>
+                <th scope="col">Status</th>
+                <th scope="col">Assigned to User ID</th>
+                <th scope="col">Detail</th>
+                <th scope="col">Create On</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor='let data of Tasks'>
+                <td>{{data.id}}</td>
+                <td>{{data.projectid}}</td>
+                <td>{{data.status}}</td>
+                <td>{{data.detail}}</td>
+                <td>{{data.assignedto}}</td>
+                <td>{{data.createdon}}</td>
+                <td>
+                  <button routerLink="/update-tsask/{{data.id}}" type="button" class="btn btn-primary">Update</button>
+                  &nbsp;<button (click)="deleteTasks(data.id)" type="button" class="btn btn-primary">Delete</button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

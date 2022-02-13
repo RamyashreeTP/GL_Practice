@@ -1,0 +1,14 @@
+<div class="card">
+  <h4 class="card-header">Update Project</h4>
+  <div class="card-body">
+    <div class="form-group">
+      <input type="text" [(ngModel)]="projectDetails.name" class="form-control" placeholder="name">
+    </div>
+    <div class="form-group">
+      <textarea type="text" [(ngModel)]="projectDetails.detail" class="form-control" placeholder="Detail"></textarea>
+    </div>
+    <div class="form-group">
+      <button class="btn btn-success btn-lg btn-block" (click)="updateProject()">Update Project</button>
+    </div> 
+  </div>
+</div>
